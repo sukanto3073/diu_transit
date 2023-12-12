@@ -1,7 +1,13 @@
 
+import 'dart:convert';
+
+import 'package:diu_transit/Model/weather.dart';
+import 'package:diu_transit/Network/weather_service.dart';
 import 'package:diu_transit/Screens/transport_schedule.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:http/http.dart' as http;
+import 'package:geolocator/geolocator.dart';
 import 'package:lottie/lottie.dart';
 import '../Presentation_Layer/color_manager.dart';
 import '../Presentation_Layer/text_size_manager.dart';
@@ -13,6 +19,63 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  final _weatherService = WeatherService("e6a638b7a72f191d2feacb4ae7fbd2bb");
+  Weather? _weather;
+  String?name;
+  var mapApiKey='AIzaSyDZTlLGckV6h6hXKmSAq5_OfE3CoGpEPi4';
+
+  //fetch weather
+  _fetchWeather()async{
+    // get the current city
+    String cityName= await _weatherService.getCurrentCity();
+    //get weather for city
+    try{
+      final weather = await _weatherService.getWeather(cityName);
+      setState(() {
+        _weather=weather;
+      });
+    }catch(e){
+      print(e);
+    }
+  }
+  //init state
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // fetch weather on startup
+    _fetchWeather();
+  }
+
+
+  // weather animation
+  String getWeatherAnimation(String?mainCondition){
+    print('------------------------${_weather?.mainCondition?.toLowerCase()}');
+    if(mainCondition==null)return 'assete/lottie_image/rain.json';
+
+    switch(mainCondition.toLowerCase()){
+      case'clouds':
+      case'mist':
+      case'smoke':
+      case'haze':
+      case'dust':
+      case'fog':
+        return 'assete/lottie_image/cloud.json';
+      case'rain':
+      case'drizzle':
+      case'shower rain':
+        return 'assete/lottie_image/rain.json';
+      case'thunderstrom':
+        return 'assete/lottie_image/thunder.json';
+      case'clear':
+        return 'assete/lottie_image/sunny.json';
+      default:
+        return 'assete/lottie_image/rain.json';
+    }
+
+  }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -46,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("Mirpur",
+                      Text(_weather?.cityName ??"Loading...",
                         style: TextStyle(
                           fontFamily: "OpenSans",
                           fontSize: 30,
@@ -58,9 +121,9 @@ class _HomePageState extends State<HomePage> {
                       SizedBox(
                         height:screenSize.height/4,
                         width: screenSize.width/4,
-                        child: Lottie.asset('assete/lottie_image/snow_sunny.json'),
+                        child: Lottie.asset(getWeatherAnimation("${_weather?.mainCondition.toString()}")),
                       ),
-                      Text("17°",
+                      Text("${_weather?.temperature?.round()}°C",
                         style: TextStyle(
                             fontFamily: "OpenSans",
                             fontSize: 32,
