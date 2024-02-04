@@ -2,14 +2,14 @@ import 'package:diu_transit/Presentation_Layer/color_manager.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatefulWidget {
- // final TextEditingController controller;
+  final TextEditingController controller;
   final String hintText;
 
   final double top;
   TextInputType keybordType=TextInputType.text;
   CustomTextFormField({
     Key? key,
-   // required this.controller,
+    required this.controller,
     required this.hintText,
 
     required this.top,
@@ -48,7 +48,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         child: TextFormField(
 
           keyboardType: widget.keybordType,
-          //controller: widget.controller,
+          controller: widget.controller,
           validator: (value) {
             if (value == null || value.isEmpty) {
               setState(() {

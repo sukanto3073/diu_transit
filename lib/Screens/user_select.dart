@@ -6,11 +6,12 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 
 import '../Presentation_Layer/text_size_manager.dart';
+import 'driver_bus_info.dart';
 import 'driver_home_page.dart';
-import 'google_map.dart';
 import 'login_page.dart';
 
 class UserSelect extends StatefulWidget {
+
   const UserSelect({super.key});
 
   @override
@@ -47,7 +48,12 @@ class _UserSelectState extends State<UserSelect> {
           //Login as a driver button
           InkWell(
             onTap: (){
-              Get.to(DriverHomePage(),transition: Transition.leftToRightWithFade,duration: Duration(milliseconds: 1500));
+              // Get.to(DriverInfo(),transition: Transition.fadeIn,
+              //     duration: Duration(milliseconds: 1500));
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) =>  LoginPage(user: 'driver',)),
+              );
             },
             child: Container(
               height: screenSize.height/14,
@@ -73,7 +79,7 @@ class _UserSelectState extends State<UserSelect> {
              // Get.to(MapPage(),transition: Transition.downToUp,duration: Duration(seconds: 2));
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const LoginPage()),
+                MaterialPageRoute(builder: (context) =>  LoginPage(user: 'student',)),
               );
             },
             child: Container(

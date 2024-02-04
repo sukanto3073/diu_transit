@@ -11,20 +11,24 @@ import '../Presentation_Layer/text_size_manager.dart';
 import 'home_page.dart';
 
 class SchedulePage extends StatefulWidget {
-  const SchedulePage({super.key});
+  String? url;
+
+  SchedulePage({ required this.url} );
+
+
 
   @override
   State<SchedulePage> createState() => _SchedulePageState();
 }
 
 class _SchedulePageState extends State<SchedulePage> {
-  final String url='https://www.google.com/maps/d/embed?mid=1J8QtXb3iMgXJTsECsIzdzu3mIgDio5Al';
+  //final String url='https://www.google.com/maps/d/embed?mid=1J8QtXb3iMgXJTsECsIzdzu3mIgDio5Al';
      WebViewController? controller;
   double _progress=0;
 
   runWeb()async{
 
-    controller!.loadUrl(url);
+    controller!.loadUrl(widget.url!);
     controller!.clearCache();
 
 
@@ -53,7 +57,7 @@ class _SchedulePageState extends State<SchedulePage> {
                 }
                 return NavigationDecision.navigate;
               },
-             initialUrl: this.url,
+             initialUrl: widget.url!,
               javascriptMode: JavascriptMode.unrestricted,
               onWebViewCreated: (controller){
                this.controller!=controller;

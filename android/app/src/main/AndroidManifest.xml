@@ -3,9 +3,11 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <application
-        android:label="diu_transit"
+        android:label="DIU Transit"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
+        <meta-data android:name="com.google.android.gms.games.APP_ID"
+            android:value="u003\com.example.diu_transit"/>
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDZTlLGckV6h6hXKmSAq5_OfE3CoGpEPi4"/>
         <activity
